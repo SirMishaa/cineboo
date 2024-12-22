@@ -27,6 +27,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use App\Observers\UserObserver;
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -39,9 +40,15 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 #[ObservedBy([UserObserver::class])]
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
-    use HasFactory, HasRoles, Notifiable, TwoFactorAuthenticatable;
+    /** @use HasFactory<UserFactory> */
+    use HasFactory;
+
+    use HasRoles, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -95,6 +102,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
      *
      * @param  Panel  $panel  The panel object that the user is trying to access.
      * @return bool Returns a boolean value indicating if the user can access the panel.
+     *
+     * @throws \Exception
      */
     public function canAccessPanel(Panel $panel): bool
     {
