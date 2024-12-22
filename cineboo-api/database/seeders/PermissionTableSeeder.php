@@ -28,6 +28,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -39,7 +40,7 @@ class PermissionTableSeeder extends Seeder
         /**
          * Reset cached roles and permissions
          */
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
         app()['cache']->forget('spatie.permission.cache');
 
         $permissions = [
