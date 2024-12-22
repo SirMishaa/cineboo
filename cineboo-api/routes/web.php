@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright © 2024 Cineboo (https://github.com/SirMishaa/cineboo)
  *
@@ -26,9 +27,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/test', function () {
-
-    return "UwU";
-});
-

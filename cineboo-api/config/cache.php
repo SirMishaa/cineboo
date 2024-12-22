@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright © 2024 Cineboo (https://github.com/SirMishaa/cineboo)
  *

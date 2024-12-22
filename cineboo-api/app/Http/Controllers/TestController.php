@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright © 2024 Cineboo (https://github.com/SirMishaa/cineboo)
  *
@@ -22,8 +23,6 @@
  */
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 
 class TestController extends Controller
 {

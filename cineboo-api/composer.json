@@ -60,8 +60,17 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
+        "dev:octane": [
+            "PHP_IDE_CONFIG=serverName=Cineboo XDEBUG=1 php artisan octane:frankenphp --watch -vvv"
+        ],
         "dev": [
-            "@php artisan octane:frankenphp"
+            "php artisan serve"
+        ],
+        "format": [
+            "./vendor/bin/pint"
+        ],
+        "lint": [
+            "./vendor/bin/phpstan"
         ]
     },
     "extra": {
