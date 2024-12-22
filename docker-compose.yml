@@ -1,0 +1,76 @@
+---
+name: 'cineboo'
+services:
+    api:
+        build:
+            context: .
+            dockerfile: ./cineboo-infra/php/8.4.Dockerfile
+        image: dunglas/frankenphp
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${FORWARD_APP_PORT:-8000}:8000'
+            - '${FORWARD_APP_PORT_TLS:-443}:443' # TLS
+            - '${FORWARD_APP_PORT_TLS:-443}:443/udp' # HTTP/3
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}' # Hot reload
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+        volumes:
+            - './cineboo-api/:/var/www/html'
+            - './cineboo-api/vendor/:/var/www/html/vendor' # Note: cineboo-api content will be copied in html folder, that's why we're accessing vendor directly
+        networks:
+            - cineboo
+        depends_on:
+            - pgsql
+            - redis
+        env_file:
+          - cineboo-api/.env
+
+    pgsql:
+        image: 'postgres:17-alpine'
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-postgres}'
+            POSTGRES_DB: '${DB_DATABASE:-cineboo_db}'
+            POSTGRES_USER: '${DB_USERNAME:-postgres}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-postgres}'
+        volumes:
+            - 'pgsql:/var/lib/postgresql/data'
+            - './cineboo-api/vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+        networks:
+            - cineboo
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+            retries: 3
+            timeout: 5s
+        env_file:
+          - cineboo-api/.env
+
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'redis:/data'
+        networks:
+            - cineboo
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            retries: 3
+            timeout: 5s
+        env_file:
+          - cineboo-api/.env
+
+networks:
+    cineboo:
+        driver: bridge
+volumes:
+    pgsql:
+        driver: local
+    redis:
+        driver: local
