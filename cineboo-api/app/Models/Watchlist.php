@@ -22,46 +22,46 @@
  *
  */
 
-namespace Database\Factories;
+namespace App\Models;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Database\Factories\WatchlistFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @extends Factory<User>
+ * @mixin IdeHelperWatchlist
  */
-class UserFactory extends Factory
+class Watchlist extends Model
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
+    /** @use HasFactory<WatchlistFactory> */
+    use HasFactory;
+
+    use SoftDeletes;
 
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * @var array<int,string>
      */
-    public function definition(): array
+    protected $fillable = [
+        'name',
+        'description',
+        'keywords',
+        'user_id',
+    ];
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
+    protected function casts(): array
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return [
+            'keywords' => 'array',
+        ];
     }
 }
