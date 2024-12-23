@@ -55,6 +55,7 @@ jobs:
         with:
           node-version: "20.x"
           cache: 'pnpm'
+          cache-dependency-path: "${{env.DEFAULT_FOLDER}}/package.json"
 
       - name: 🏗 Install Node dependencies
         working-directory: ${{env.DEFAULT_FOLDER}}
