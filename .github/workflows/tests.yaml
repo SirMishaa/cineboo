@@ -105,6 +105,7 @@ jobs:
           DB_USER: postgres
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+          CACHE_STORE: "null"
         run: php artisan migrate
 
       - name: 🚀 Execute tests (Unit and Feature tests) via Pest
@@ -117,6 +118,7 @@ jobs:
           DB_USER: postgres
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+          CACHE_STORE: "null"
         run: vendor/bin/pest --coverage --coverage-clover coverage.xml
 
       - name: 🚀 Upload coverage to Codecov
