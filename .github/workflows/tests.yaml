@@ -46,6 +46,9 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
+          package_json_file: "${{env.DEFAULT_FOLDER}}/package.json"
+          run_install: false
+
 
       - name: 🏗 Setup Node.js
         uses: actions/setup-node@v4
