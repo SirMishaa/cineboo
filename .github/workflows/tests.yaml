@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  DEFAULT_FOLDER: "./laravel"
+  DEFAULT_FOLDER: "./cineboo-api"
 
 jobs:
   pest:
@@ -46,19 +46,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
+          cache: 'pnpm'
 
-      - name: 💻 Show PHP and NPM versions
-        run: |
-          npm --version
-          php --version
+      - name: ❤️ Setup PNPM and install packages
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-      - name: 🏗 Install NPM packages
+      - name: 🏗 Install Node dependencies
         working-directory: ${{env.DEFAULT_FOLDER}}
-        run: npm ci
+        run: pnpm install
 
       - name: 🛠️ Build frontend
         working-directory: ${{env.DEFAULT_FOLDER}}
-        run: npm run build
+        run: pnpm run build
 
       - name: 🏗 Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@2.31.1
@@ -114,5 +115,5 @@ jobs:
         uses: codecov/codecov-action@v5.1.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./laravel/coverage.xml
+          file: ./cineboo-api/coverage.xml
           flags: pest
