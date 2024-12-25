@@ -25,6 +25,7 @@
 use App\Enums\UserRole;
 
 it('can view the log viewer page', function () {
+    /** @var Tests\TestCase $this */
     $this->actingAs(createUser(UserRole::ADMIN))
         ->get(route('log-viewer.index'))
         ->assertSuccessful();

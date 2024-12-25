@@ -22,21 +22,31 @@
  *
  */
 
-namespace Database\Seeders;
+namespace Database\Factories;
 
-use Illuminate\Database\Seeder;
+use App\Models\Movie;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
-class DatabaseSeeder extends Seeder
+/** @extends Factory<Movie> */
+class MovieFactory extends Factory
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    protected $model = Movie::class;
+
+    public function definition(): array
     {
-        $this->call([
-            ShieldSeeder::class,
-            UserTableSeeder::class,
-            MovieSeeder::class,
-        ]);
+        return [
+            'title' => $this->faker->word(), //
+            'description' => $this->faker->text(),
+            'release_date' => Carbon::now(),
+            'duration' => $this->faker->randomNumber(),
+            'primary_language' => $this->faker->word(),
+            'country' => $this->faker->country(),
+            'rating' => $this->faker->randomFloat(),
+            'imdb_id' => $this->faker->word(),
+            'tmdb_id' => $this->faker->word(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ];
     }
 }

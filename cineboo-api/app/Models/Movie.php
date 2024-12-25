@@ -22,21 +22,39 @@
  *
  */
 
-namespace Database\Seeders;
+namespace App\Models;
 
-use Illuminate\Database\Seeder;
+use Database\Factories\MovieFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DatabaseSeeder extends Seeder
+/**
+ * @mixin IdeHelperMovie
+ */
+class Movie extends Model
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    /** @use HasFactory<MovieFactory> */
+    use HasFactory;
+
+    use SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'release_date',
+        'duration',
+        'primary_language',
+        'country',
+        'rating',
+        'imdb_id',
+        'tmdb_id',
+    ];
+
+    protected function casts(): array
     {
-        $this->call([
-            ShieldSeeder::class,
-            UserTableSeeder::class,
-            MovieSeeder::class,
-        ]);
+        return [
+            'release_date' => 'date',
+        ];
     }
 }

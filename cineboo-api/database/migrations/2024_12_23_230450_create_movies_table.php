@@ -22,21 +22,32 @@
  *
  */
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Seeder;
-
-class DatabaseSeeder extends Seeder
+return new class extends Migration
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function up(): void
     {
-        $this->call([
-            ShieldSeeder::class,
-            UserTableSeeder::class,
-            MovieSeeder::class,
-        ]);
+        Schema::create('movies', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->date('release_date')->nullable();
+            $table->integer('duration')->nullable();
+            $table->string('primary_language')->nullable();
+            $table->string('country')->nullable();
+            $table->decimal('rating')->nullable();
+            $table->string('imdb_id')->nullable();
+            $table->string('tmdb_id')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
-}
+
+    public function down(): void
+    {
+        Schema::dropIfExists('movies');
+    }
+};

@@ -22,21 +22,24 @@
  *
  */
 
-namespace Database\Seeders;
+namespace App\Filament\Resources\MovieResource\Pages;
 
-use Illuminate\Database\Seeder;
+use App\Filament\Resources\MovieResource;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Resources\Pages\EditRecord;
 
-class DatabaseSeeder extends Seeder
+class EditMovie extends EditRecord
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    protected static string $resource = MovieResource::class;
+
+    protected function getHeaderActions(): array
     {
-        $this->call([
-            ShieldSeeder::class,
-            UserTableSeeder::class,
-            MovieSeeder::class,
-        ]);
+        return [
+            DeleteAction::make(),
+            ForceDeleteAction::make(),
+            RestoreAction::make(),
+        ];
     }
 }

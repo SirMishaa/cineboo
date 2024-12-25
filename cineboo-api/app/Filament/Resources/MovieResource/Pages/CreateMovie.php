@@ -22,21 +22,19 @@
  *
  */
 
-namespace Database\Seeders;
+namespace App\Filament\Resources\MovieResource\Pages;
 
-use Illuminate\Database\Seeder;
+use App\Filament\Resources\MovieResource;
+use Filament\Resources\Pages\CreateRecord;
 
-class DatabaseSeeder extends Seeder
+class CreateMovie extends CreateRecord
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    protected static string $resource = MovieResource::class;
+
+    protected function getHeaderActions(): array
     {
-        $this->call([
-            ShieldSeeder::class,
-            UserTableSeeder::class,
-            MovieSeeder::class,
-        ]);
+        return [
+
+        ];
     }
 }
