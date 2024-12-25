@@ -51,9 +51,7 @@
             "@php artisan filament:upgrade",
             "@php artisan ide-helper:generate --helpers",
             "@php artisan ide-helper:meta",
-            "@php artisan ide-helper:models --write-mixin",
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan vendor:publish --tag=log-viewer-assets --ansi --force"
+            "@php artisan ide-helper:models --write-mixin"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
@@ -75,6 +73,11 @@
         ],
         "format": [
             "./vendor/bin/pint"
+        ],
+        "test": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan vendor:publish --tag=log-viewer-assets --ansi --force",
+            "./vendor/bin/pest --coverage --coverage-clover coverage.xml"
         ],
         "lint": [
             "./vendor/bin/phpstan"

@@ -108,7 +108,7 @@ jobs:
           CACHE_STORE: "null"
         run: php artisan migrate
 
-      - name: 🚀 Execute tests (Unit and Feature tests) via Pest
+      - name: 🚀 Execute tests (Unit and Feature tests) via Composer (composer run test)
         working-directory: ${{env.DEFAULT_FOLDER}}
         # Set environment
         env:
@@ -119,7 +119,7 @@ jobs:
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
           CACHE_STORE: "null"
-        run: vendor/bin/pest --coverage --coverage-clover coverage.xml
+        run: composer run test
 
       - name: 🚀 Upload coverage to Codecov
         uses: codecov/codecov-action@v5.1.2
