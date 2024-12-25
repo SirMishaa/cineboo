@@ -1,5 +1,5 @@
 ---
-name: Typing
+name: Code static analysis (PHPStan)
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 env:
   DEFAULT_PHP: "8.3"
-  DEFAULT_FOLDER: "./laravel"
+  DEFAULT_FOLDER: "./cineboo-api"
 
 jobs:
   phpstan:
