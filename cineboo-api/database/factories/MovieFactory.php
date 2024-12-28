@@ -39,10 +39,10 @@ class MovieFactory extends Factory
             'title' => $this->faker->word(), //
             'description' => $this->faker->text(),
             'release_date' => Carbon::now(),
-            'duration' => $this->faker->randomNumber(),
+            'duration' => $this->faker->numberbetween(45, 185),
             'primary_language' => $this->faker->word(),
             'country' => $this->faker->country(),
-            'rating' => $this->faker->randomFloat(),
+            'rating' => $this->faker->randomFloat(2, 0, 10),
             'imdb_id' => $this->faker->word(),
             'tmdb_id' => $this->faker->word(),
             'created_at' => Carbon::now(),

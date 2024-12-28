@@ -27,6 +27,7 @@ namespace Database\Seeders;
 use App\Enums\UserRole;
 use App\Models\User;
 use App\Models\Watchlist;
+use App\Models\WatchlistItem;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
@@ -61,7 +62,15 @@ class UserTableSeeder extends Seeder
         Watchlist::factory()->count(10)->create(['user_id' => $user->id]);
 
         collect([$admin, $moderator, $user])->each(function ($user) {
-            Watchlist::factory()->count(3)->create(['user_id' => $user->id]);
+            $watchlists = Watchlist::factory()->count(3)->create(['user_id' => $user->id]);
+            $watchlists->each(function ($watchlist) {
+                WatchlistItem::factory()
+                    ->withMovie()
+                    ->count(5)
+                    ->create([
+                        'watchlist_id' => $watchlist->id,
+                    ]);
+            });
         });
     }
 }
