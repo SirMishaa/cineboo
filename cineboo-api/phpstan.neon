@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+
+parameters:
+    paths:
+        - app/
+    # Level 9 is the highest level
+    level: 8
+    scanFiles:
+            - _ide_helper.php
+            - _ide_helper_models.php
+            - .phpstorm.meta.php
+    ignoreErrors:
+            - '#PHPDoc tag @mixin contains unknown class App\\Models#'
+            - '#Call to an undefined method .*badMethod\(\)#'
+
